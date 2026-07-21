@@ -35,8 +35,8 @@ public class AliDevopsController {
         String msg = MyTemplate.aliDevopsTemplate(body);
         // 打印或发送到机器人
         var bodyData = new JSONObject();
-        body.put("text",msg);
-        body.put("type","html");
+        bodyData.put("text",msg);
+        bodyData.put("type","html");
         MyHttpUtil.sendRequest(MyServerConfig.SERVICE_WECHAT_NODE_URL + "/v1/message/text",bodyData, Method.POST);
         return R.success();
     }
