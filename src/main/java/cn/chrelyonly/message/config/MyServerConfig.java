@@ -21,9 +21,18 @@ public class MyServerConfig {
 	}
     public static String SERVICE_WECHAT_NODE_URL;
 	@Value("${open.wechatNode.api.serviceUrl}")
-	public void setServiceMusicUrl(String serviceUrl) {
+	public void setServiceMusicNodeUrl(String serviceUrl) {
 		log.info("初始化微信消息接口插件");
 		MyServerConfig.SERVICE_WECHAT_NODE_URL = serviceUrl;
+	}
+
+
+
+	public static String SERVICE_CHROME_URL;
+	@Value("${open.chrome.api.serviceUrl}")
+	public void setServiceChromeUrl(String serviceUrl) {
+		log.info("初始化谷歌浏览器自动化插件");
+		MyServerConfig.SERVICE_CHROME_URL = serviceUrl;
 	}
 
 }

@@ -33,7 +33,7 @@ public class RedisUtil {
     public RedisUtil(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
         redisTemplateStatic = this.redisTemplate;
-        log.info("初始化了静态变量");
+        log.info("初始化RedisUtil");
     }
     /**
      * 存储redis缓存
