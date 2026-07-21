@@ -1,7 +1,7 @@
 services:
   chrelyonly-message:
     mem_limit: 1048m
-    image: eclipse-temurin:17-jre-alpine
+    image: eclipse-temurin:21-jre-alpine
     container_name: chrelyonly-message
     volumes:
       - /etc/localtime:/etc/localtime:ro
