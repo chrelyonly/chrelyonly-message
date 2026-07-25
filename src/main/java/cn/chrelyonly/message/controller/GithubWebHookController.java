@@ -30,10 +30,9 @@ public class GithubWebHookController {
      */
     @PostMapping("/github")
     public R github(@RequestBody JSONObject body) {
-        log.info("接收到github webhook回调: {}", body.toJSONString());
         JSONObject repository = body.getJSONObject("repository");
         String repoName = repository.getString("name");
-        log.info("收到仓库：" + repoName);
+        log.info("收到仓库：{}", repoName);
         switch (repoName) {
             case "chrelyonly-music-system-view":
                 // 执行前端部署

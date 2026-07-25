@@ -151,7 +151,6 @@ public class MyTemplate {
         // 1. 提取仓库信息
         JSONObject repository = body.getJSONObject("repository");
         String repoName = repository != null ? repository.getString("name") : "-";
-        String repoFullName = repository != null ? repository.getString("full_name") : "-";
         String repoUrl = repository != null ? repository.getString("html_url") : "";
 
         // 2. 提取分支信息 (如 "refs/heads/master" -> "master")
@@ -169,7 +168,7 @@ public class MyTemplate {
         int commitCount = commits != null ? commits.size() : 0;
 
         // 状态判定：GitHub Push 成功触发即代表推送成功
-        String statusName = "PUSH SUCCESS";
+        String statusName = "提交代码回调操作";
         String statusClass = "status-success"; // 绿色卡片
 
         StringBuilder html = new StringBuilder();
@@ -218,7 +217,7 @@ public class MyTemplate {
                 .append("<div class=\"card\">")
                 // Header
                 .append("<div class=\"header\"><div class=\"header-left\"><div class=\"header-icon\">🐙</div><div>")
-                .append("<div class=\"title\">GitHub Push 事件通知</div>")
+                .append("<div class=\"title\">GitHub Push Web hook 事件通知</div>")
                 .append("<div class=\"sub-title\">代码仓库变更提醒</div></div></div>")
                 .append("<div class=\"status-badge ").append(statusClass).append("\">").append(statusName).append("</div></div>")
 
