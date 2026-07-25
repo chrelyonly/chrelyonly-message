@@ -4,6 +4,7 @@ import cn.chrelyonly.message.component.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.webmvc.autoconfigure.error.AbstractErrorController;
 import org.springframework.boot.webmvc.error.ErrorAttributes;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,35 +14,25 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @author chrelyonly
  * 重写异常处理
  */
-@RestControllerAdvice(basePackages = "cn.chrelyonly.message")
+@RestControllerAdvice
 @Slf4j
-@RestController
-@RequestMapping("${server.error.path:${error.path:/error}}")
-public class MyException extends AbstractErrorController {
+public class MyException{
 
-    public MyException(ErrorAttributes errorAttributes) {
-        super(errorAttributes);
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public R<?> method(HttpRequestMethodNotSupportedException e) {
+
+        log.error("", e);
+
+        return R.fail("请求方式错误喵~");
     }
 
-    /**
-     * 重写异常处理报错
-     * @param d 异常
-     * @return R
-     */
     @ExceptionHandler(Exception.class)
-    public R<Object> handler(Exception d) {
-        d.printStackTrace();
-        return R.fail("系统异常，请联系管理员");
-    }
+    public R<?> exception(Exception e) {
 
-    /**
-     * 覆盖默认错误页面
-     */
-    @RequestMapping
-    public R<String> error() {
-        return R.fail("系统异常，请联系管理员");
-    }
+        log.error("", e);
 
+        return R.fail("系统异常喵,要看日志的喵~");
+    }
 
 
 }
