@@ -168,7 +168,7 @@ public class MyTemplate {
         int commitCount = commits != null ? commits.size() : 0;
 
         // 状态判定：GitHub Push 成功触发即代表推送成功
-        String statusName = "提交代码回调操作";
+        String statusName = "提交代码hook操作";
         String statusClass = "status-success"; // 绿色卡片
 
         StringBuilder html = new StringBuilder();
@@ -274,7 +274,7 @@ public class MyTemplate {
         }
 
         // Footer
-        html.append("<div class=\"footer\">Powered By GitHub Webhook Center 🛠️</div>")
+        html.append("<div class=\"footer\">莓莓消息推送中心 🛠️</div>")
                 .append("</div></body></html>");
 
         return html.toString();
