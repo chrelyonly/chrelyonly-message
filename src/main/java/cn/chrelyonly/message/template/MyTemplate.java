@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 public class MyTemplate {
@@ -278,5 +280,87 @@ public class MyTemplate {
                 .append("</div></body></html>");
 
         return html.toString();
+    }
+
+
+
+
+
+    /**
+     * 生成包含完整 HTML 结构的音乐采集通知模板
+     *
+     * @param body 包含采集参数和列表数据的 JSONObject
+     * @return 完整的 HTML 网页字符串
+     */
+    public static String musicCollectionTemplate(JSONObject body) {
+        // 提取数据并设置默认值
+        String keywords = body.getString("keywords");
+        String platform = body.getString("platform");
+        int total = body.getIntValue("totalCount");
+        int success = body.getIntValue("successCount");
+        int fail = body.getIntValue("failCount");
+
+        // 当前时间
+        String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        // 失败状态颜色切换
+        String failBgColor = fail > 0 ? "#fff5f5" : "#f1f3f5";
+        String failTextColor = fail > 0 ? "#fa5252" : "#868e96";
+        String failNumColor = fail > 0 ? "#c92a2a" : "#343a40";
+
+        // 拼接完整的 HTML 文档结构
+        StringBuilder sb = new StringBuilder();
+        sb.append("<!DOCTYPE html>\n")
+                .append("<html lang=\"zh-CN\">\n")
+                .append("<head>\n")
+                .append("    <meta charset=\"UTF-8\">\n")
+                .append("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n")
+                .append("    <title>音乐采集任务通知</title>\n")
+                .append("</head>\n")
+                .append("<body style=\"background-color: #f4f5f7; padding: 20px; margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh;\">\n")
+
+                // 核心卡片结构
+                .append("    <div class=\"card\" style=\"width: 100%; max-width: 520px; border: 1px solid #e1e4e8; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); background-color: #ffffff;\">\n")
+                // 头部渐变栏
+                .append("        <div style=\"background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%); padding: 20px; text-align: center;\">\n")
+                .append("            <h2 style=\"color: #ffffff; margin: 0; font-size: 20px; font-weight: 600; letter-spacing: 0.5px;\">🎵 音乐采集任务完成</h2>\n")
+                .append("            <p style=\"color: rgba(255,255,255,0.8); margin: 6px 0 0 0; font-size: 13px;\">执行时间：").append(currentTime).append("</p>\n")
+                .append("        </div>\n")
+
+                // 内容面板
+                .append("        <div style=\"padding: 20px;\">\n")
+                // 参数说明
+                .append("            <div style=\"background-color: #f8f9fa; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;\">\n")
+                .append("                <div style=\"font-size: 14px; color: #495057; margin-bottom: 6px;\"><strong>搜索关键词：</strong> <span style=\"color: #2b5876;\">").append(keywords).append("</span></div>\n")
+                .append("                <div style=\"font-size: 14px; color: #495057;\"><strong>目标平台：</strong> <span style=\"background-color: #e7f5ff; color: #1c7ed6; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;\">").append(platform).append("</span></div>\n")
+                .append("            </div>\n")
+
+                // 统计数据网格
+                .append("            <div style=\"display: flex; justify-content: space-between; gap: 10px; margin-bottom: 20px;\">\n")
+                .append("                <div style=\"flex: 1; background: #f1f3f5; border-radius: 8px; padding: 12px 8px; text-align: center;\">\n")
+                .append("                    <div style=\"font-size: 12px; color: #868e96;\">检索总量</div>\n")
+                .append("                    <div style=\"font-size: 18px; font-weight: bold; color: #343a40; margin-top: 4px;\">").append(total).append("</div>\n")
+                .append("                </div>\n")
+                .append("                <div style=\"flex: 1; background: #ebfbee; border-radius: 8px; padding: 12px 8px; text-align: center;\">\n")
+                .append("                    <div style=\"font-size: 12px; color: #40c057;\">成功下载</div>\n")
+                .append("                    <div style=\"font-size: 18px; font-weight: bold; color: #2b8a3e; margin-top: 4px;\">").append(success).append("</div>\n")
+                .append("                </div>\n")
+                .append("                <div style=\"flex: 1; background: ").append(failBgColor).append("; border-radius: 8px; padding: 12px 8px; text-align: center;\">\n")
+                .append("                    <div style=\"font-size: 12px; color: ").append(failTextColor).append(";\">失败数量</div>\n")
+                .append("                    <div style=\"font-size: 18px; font-weight: bold; color: ").append(failNumColor).append("; margin-top: 4px;\">").append(fail).append("</div>\n")
+                .append("                </div>\n")
+                .append("            </div>\n")
+
+                // 页脚
+                .append("            <div style=\"font-size: 12px; color: #adb5bd; text-align: center; border-top: 1px dashed #e9ecef; padding-top: 12px;\">\n")
+                .append("                莓莓消息推送中心 🛠️ · 音乐数据采集服务\n")
+                .append("            </div>\n")
+                .append("        </div>\n")
+                .append("    </div>\n")
+
+                .append("</body>\n")
+                .append("</html>");
+
+        return sb.toString();
     }
 }
