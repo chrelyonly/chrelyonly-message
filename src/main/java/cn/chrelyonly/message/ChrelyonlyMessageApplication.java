@@ -1,15 +1,15 @@
 package cn.chrelyonly.message;
 
 import cn.chrelyonly.message.config.MyNacosConfig;
-import cn.chrelyonly.message.util.RedisUtil;
 import com.alibaba.nacos.api.exception.NacosException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableAsync
+@EnableScheduling
 public class ChrelyonlyMessageApplication {
     private static final String appName = "chrelyonly-message";
     public static void main(String[] args) throws NacosException {
